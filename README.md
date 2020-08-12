@@ -19,7 +19,7 @@ $ npm install -g fmn-cli
 $ fmn COMMAND
 running command...
 $ fmn (-v|--version|version)
-fmn-cli/0.0.0 linux-x64 node-v12.18.3
+fmn-cli/0.0.1 linux-x64 node-v12.18.3
 $ fmn --help [COMMAND]
 USAGE
   $ fmn COMMAND
@@ -28,8 +28,25 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`fmn default [FILE]`](#fmn-default-file)
 * [`fmn hello [FILE]`](#fmn-hello-file)
 * [`fmn help [COMMAND]`](#fmn-help-command)
+
+## `fmn default [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ fmn default [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/default.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/default.ts)_
 
 ## `fmn hello [FILE]`
 
@@ -49,7 +66,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/techturnip/fmn-cli/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/hello.ts)_
 
 ## `fmn help [COMMAND]`
 

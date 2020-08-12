@@ -1,5 +1,13 @@
 import {Command, flags} from '@oclif/command'
-import {blue} from 'chalk'
+
+// Gradient Text Library
+const gradient = require('gradient-string')
+
+// ASCII Font Library
+const figlet = require('figlet')
+
+// Get version from package.json
+const pjson = require('../../package.json')
 
 export default class Hello extends Command {
   static description = 'describe the command here'
@@ -23,8 +31,17 @@ hello world from ./src/hello.ts!
   async run() {
     const {args, flags} = this.parse(Hello)
 
-    const name = flags.name ?? 'world'
-    this.log(blue(`hello ${name} from ./src/commands/hello.ts`))
+    const ver = pjson.version
+
+    this.log(gradient.passion(figlet.textSync(`FMN CLI v${ver}`, {
+      font: 'Big',
+      horizontalLayout: 'default',
+      verticalLayout: 'default',
+      width: 80,
+      whitespaceBreak: true,
+    })))
+
+    this.log('Welcome to Forget Me Not! CLI \n')
     if (args.file && flags.force) {
       this.log(`you input --force and --file: ${args.file}`)
     }
