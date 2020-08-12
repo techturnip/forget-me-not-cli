@@ -6,7 +6,7 @@
   "bin": {
     "fmn": "./bin/run"
   },
-  "bugs": "https://github.com/techturnip/fmn-cli/issues",
+  "bugs": "https://github.com/techturnip/forget-me-not-cli/issues",
   "dependencies": {
     "@oclif/command": "^1.8.0",
     "@oclif/config": "^1.17.0",
@@ -46,7 +46,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "techturnip/fmn-cli",
+  "repository": "techturnip/forget-me-not-cli",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc",
