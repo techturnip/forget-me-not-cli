@@ -7,6 +7,7 @@ Global CLI for managing todos across projects
 [![Version](https://img.shields.io/npm/v/fmn-cli.svg)](https://npmjs.org/package/fmn-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/fmn-cli.svg)](https://npmjs.org/package/fmn-cli)
 [![License](https://img.shields.io/npm/l/fmn-cli.svg)](https://github.com/techturnip/fmn-cli/blob/master/package.json)
+[![Travis CI](https://travis-ci.com/techturnip/forget-me-not-cli.svg?branch=master)
 
 <!-- toc -->
 * [Usage](#usage)
