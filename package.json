@@ -55,7 +55,10 @@
       "@oclif/plugin-help"
     ],
     "hooks": {
-      "init": "./lib/hooks/init/banner"
+      "init": [
+        "./lib/hooks/init/banner",
+        "./lib/hooks/init/detect-project"
+      ]
     }
   },
   "repository": "techturnip/forget-me-not-cli",
