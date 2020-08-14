@@ -29,25 +29,9 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`fmn default [FILE]`](#fmn-default-file)
 * [`fmn hello [FILE]`](#fmn-hello-file)
 * [`fmn help [COMMAND]`](#fmn-help-command)
-
-## `fmn default [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ fmn default [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-```
-
-_See code: [src/commands/default.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/default.ts)_
+* [`fmn init [FILE]`](#fmn-init-file)
 
 ## `fmn hello [FILE]`
 
@@ -85,4 +69,20 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.0/src/commands/help.ts)_
+
+## `fmn init [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ fmn init [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/init.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/init.ts)_
 <!-- commandsstop -->
