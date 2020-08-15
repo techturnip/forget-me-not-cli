@@ -2,17 +2,22 @@ import {Hook} from '@oclif/config'
 import * as fs from 'fs'
 import {red, green} from 'chalk'
 
-const hook: Hook<'init'> = async function (/* opts */) {
-  // store path to check for package.json
-  const path = './package.json'
+// Path variable to store a path to package.json file
+const path = './package.json'
 
+// Function, takes in a path (string) for a package.json
+function checkForPjson(path: string) {
   if (fs.existsSync(path)) {
-    process.stdout.write(green(`Project detected at ${process.cwd()}`))
-    process.stdout.write('\n\n')
-  } else {
-    process.stdout.write(red(`No project detected at ${process.cwd()}`))
-    process.stdout.write('\n\n')
+    return green(`Project detected at ${process.cwd()}`)
   }
+
+  return red(`No project detected at ${process.cwd()}`)
+}
+
+// Hook definition
+const hook: Hook<'init'> = async function (/* opts */) {
+  // add 2 line breaks to the output
+  process.stdout.write(`${checkForPjson(path)} ${'\n\n'}`)
 }
 
 export default hook
