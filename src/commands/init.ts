@@ -1,20 +1,11 @@
 import {Command, flags} from '@oclif/command'
+import checkForFile from '../helpers/check-for-files'
 import * as fs from 'fs'
+import {redBright, greenBright, yellowBright} from 'chalk'
 
 // paths to use with the helper function below
 const pjsonPath = './package.json'
 const fmnrcPath = './fmnrc.json'
-
-// helper function that uses fs module to check for a file at
-// the specified relative path, relative to cwd
-// function should be extracted into separate file
-function checkForFile(path: string) {
-  if (fs.existsSync(path)) {
-    return true
-  }
-
-  return false
-}
 
 export default class Init extends Command {
   // meta description of the command
@@ -35,7 +26,7 @@ export default class Init extends Command {
   async run() {
     // we want to check if there is a fmnrc.json file already present
     if (checkForFile(fmnrcPath)) {
-      process.emitWarning('Project has already been initialized with fmn!')
+      this.log(yellowBright('Warning: Project has already been initialized with fmn!'))
       this.exit()
     }
 
@@ -59,10 +50,10 @@ export default class Init extends Command {
         }
 
         // now that we have our object we will create a new file
-        fs.writeFile('fmnrc.json', JSON.stringify(fmnrc, null, 2), function (err) {
-          if (err) return process.stdout.write('Something went wrong.\n')
+        fs.writeFile('fmnrc.json', JSON.stringify(fmnrc, null, 2), err => {
+          if (err) return this.log(redBright('Something went wrong.\n'))
 
-          process.stdout.write('Project has been initialized with fmn!\n')
+          this.log(greenBright('Project has been initialized with fmn!\n'))
         })
       })
     }
