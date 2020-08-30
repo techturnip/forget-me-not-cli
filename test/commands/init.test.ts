@@ -52,7 +52,7 @@ describe('init (project w/ fmnrc)', () => {
   .command(['init', '-f'])
   .it('should successfully write new fmnrc file', ctx => {
     expect(ctx.stderr).to.contain(
-      'Warning: Using the force flag will result in an overwrite of your fmnrc.json'
+      'Warning: Using the force flag'
     )
     expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
   })
