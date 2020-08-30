@@ -31,7 +31,8 @@ USAGE
 <!-- commands -->
 * [`fmn hello [FILE]`](#fmn-hello-file)
 * [`fmn help [COMMAND]`](#fmn-help-command)
-* [`fmn init [FILE]`](#fmn-init-file)
+* [`fmn init`](#fmn-init)
+* [`fmn todo [FILE]`](#fmn-todo-file)
 
 ## `fmn hello [FILE]`
 
@@ -70,13 +71,28 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.0/src/commands/help.ts)_
 
-## `fmn init [FILE]`
+## `fmn init`
+
+Generate an fmnrc.json file to track project details and todos.
+
+```
+USAGE
+  $ fmn init
+
+OPTIONS
+  -f, --force  forces overwrite of fmnrc.json file
+  -h, --help   show CLI help
+```
+
+_See code: [src/commands/init.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/init.ts)_
+
+## `fmn todo [FILE]`
 
 describe the command here
 
 ```
 USAGE
-  $ fmn init [FILE]
+  $ fmn todo [FILE]
 
 OPTIONS
   -f, --force
@@ -84,5 +100,5 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/init.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/init.ts)_
+_See code: [src/commands/todo.ts](https://github.com/techturnip/forget-me-not-cli/blob/v0.0.1/src/commands/todo.ts)_
 <!-- commandsstop -->

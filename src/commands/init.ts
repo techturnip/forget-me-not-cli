@@ -4,10 +4,6 @@ import * as fs from 'fs'
 import {redBright, greenBright, yellowBright} from 'chalk'
 import cli from 'cli-ux'
 
-/* add -f (force) flag prompt */
-// -f flag will force overwrite the fmnrc.json file
-// are you sure prompt need's implemented
-
 // paths to use with the helper function below
 const pjsonPath = './package.json'
 const fmnrcPath = './fmnrc.json'
@@ -38,7 +34,7 @@ export default class Init extends Command {
         const confirmation: boolean = await cli.confirm(yellowBright('Do you want to continue? (Y/n)'))
 
         // if the confirmation is false, we exit the command
-        if (!confirmation) this.exit()
+        if (!confirmation) return
 
         // if the confirmation is true, it will continue on to the pjson check
         // and proceed with the file overwrite
@@ -48,7 +44,7 @@ export default class Init extends Command {
         this.warn(yellowBright('Project has already been initialized with fmn!'))
 
         // exit the command, no need for an overwrite
-        this.exit()
+        return
       }
     }
 
@@ -79,7 +75,7 @@ export default class Init extends Command {
         })
       })
     } else {
-      this.error(redBright('No project was detected!\nPlease make sure you\'re at the root directory of the project you wish to initialize with fmn.'))
+      this.warn(redBright('No project was detected!\nPlease make sure you\'re at the root directory of the project you wish to initialize with fmn.'))
     }
   }
 }
