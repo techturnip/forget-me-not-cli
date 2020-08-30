@@ -5,7 +5,9 @@ const fs = require('fs')
 
 const mockProjectFmnrc = '/mockProjectFmnrc'
 const mockNoProject = '/mockNoProject'
+const startingDir = process.cwd()
 
+// HELPER FUNCTION
 async function chdir(mockPath: string): Promise<number> {
   process.chdir(path.join(__dirname, mockPath))
   return new Promise<number>((resolve, reject) => {
@@ -17,18 +19,32 @@ async function chdir(mockPath: string): Promise<number> {
   })
 }
 
+// DESCRIBE BLOCK
 describe('init (project w/ fmnrc)', () => {
-  chdir(mockProjectFmnrc)
+  // TEST SETUP
+  beforeEach(async () => {
+    if (process.cwd() !== path.join(__dirname, mockProjectFmnrc)) {
+      try {
+        await chdir(mockProjectFmnrc)
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
+  })
 
+  // AFTER TEST
+  after(() => process.chdir(startingDir))
+
+  // TEST
   test
   .stderr()
   .command(['init'])
   .it('warns if project has already been initialized', ctx => {
-    expect(ctx.stderr).to.contain(
-      'Warning: Project has already been initialized with fmn!'
-    )
+    expect(ctx.stderr).to.contain('Warning: Project has already been initialized with fmn!')
+    expect(fs.existsSync('fmnrc.json')).to.be.true
   })
 
+  // TEST
   test
   .stub(cli, 'confirm', () => async () => 'Y')
   .stdout()
@@ -42,13 +58,15 @@ describe('init (project w/ fmnrc)', () => {
   })
 })
 
+// DESCRIBE BLOCK
 describe('init (project no fmnrc)', () => {
-  beforeEach(async () => {
-    await chdir('/mockProject')
+  beforeEach(() => {
+    chdir('/mockProject')
   })
   afterEach(async () => {
     await fs.unlinkSync('fmnrc.json')
   })
+  after(() => process.chdir(startingDir))
 
   test
   .stdout()
@@ -59,9 +77,13 @@ describe('init (project no fmnrc)', () => {
   })
 })
 
+// DESCRIBE BLOCK
 describe('init (no project)', () => {
   beforeEach(async () => {
     await chdir(mockNoProject)
+  })
+  after(() => {
+    process.chdir(startingDir)
   })
   test
   .stderr()
