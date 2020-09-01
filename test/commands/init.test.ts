@@ -70,27 +70,27 @@ describe('init (project w/ fmnrc)', () => {
   // Test -----------------------------------|
   // ========================================|
   test
-  .stderr()
-  .command(['init'])
-  .it('warns if project has already been initialized', ctx => {
-    // we expect a warning that the project has been initialized
-    expect(ctx.stderr).to.contain('Warning: Project has already been initialized with fmn!')
-    // and that the fmnrc.json file does exist
-    expect(fs.existsSync('fmnrc.json')).to.be.true
-  })
+    .stderr()
+    .command(['init'])
+    .it('warns if project has already been initialized', ctx => {
+      // we expect a warning that the project has been initialized
+      expect(ctx.stderr).to.contain('Warning: Project has already been initialized with fmn!')
+      // and that the fmnrc.json file does exist
+      expect(fs.existsSync('fmnrc.json')).to.be.true
+    })
   // test init command with force flag
   test
-  .stub(cli, 'confirm', () => async () => 'Y')
-  .stdout()
-  .stderr()
-  .command(['init', '-f'])
-  .it('should successfully write new fmnrc file', ctx => {
-    // we expect there to be a warning about using the force flag
-    expect(ctx.stderr).to.contain('Warning: Using the force flag')
-    // we expect some output that the project has been initialized meaning
-    // the fmnrc.json file has been regenerated
-    expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
-  })
+    .stub(cli, 'confirm', () => async () => 'Y')
+    .stdout()
+    .stderr()
+    .command(['init', '-f'])
+    .it('should successfully write new fmnrc file', ctx => {
+      // we expect there to be a warning about using the force flag
+      expect(ctx.stderr).to.contain('Warning: Using the force flag')
+      // we expect some output that the project has been initialized meaning
+      // the fmnrc.json file has been regenerated
+      expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
+    })
 })
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 // Describe block for init command ran in ~~~|
@@ -126,14 +126,14 @@ describe('init (project no fmnrc)', () => {
   // Test -----------------------------------|
   // ========================================|
   test
-  .stdout()
-  .command(['init'])
-  .it('generates fmnrc file', ctx => {
-    // we expect that the fmnrc.json exists
-    expect(fs.existsSync('fmnrc.json')).to.be.true
-    // and we have output that the Project has been initialized
-    expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
-  })
+    .stdout()
+    .command(['init'])
+    .it('generates fmnrc file', ctx => {
+      // we expect that the fmnrc.json exists
+      expect(fs.existsSync('fmnrc.json')).to.be.true
+      // and we have output that the Project has been initialized
+      expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
+    })
 })
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 // Describe block for init command ran in ~~~|
@@ -158,11 +158,11 @@ describe('init (no project)', () => {
     process.chdir(startingDir)
   })
   test
-  .stderr()
-  .command(['init'])
-  .it('displays no project error', ctx => {
-    // we expect a warning that no project has been detected
-    expect(ctx.stderr).to.contain('Warning: No project was detected!')
-  })
+    .stderr()
+    .command(['init'])
+    .it('displays no project error', ctx => {
+      // we expect a warning that no project has been detected
+      expect(ctx.stderr).to.contain('Warning: No project was detected!')
+    })
 })
 // ------------------------------------------|

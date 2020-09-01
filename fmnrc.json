@@ -2,5 +2,11 @@
   "name": "fmn-cli",
   "desc": "Global CLI for managing todos across projects",
   "vers": "0.0.1",
-  "todos": []
+  "todos": [
+    {
+      "name": "New Todo",
+      "desc": "Test todo item",
+      "date": "9/1/2020, 12:03:06 PM"
+    }
+  ]
 }

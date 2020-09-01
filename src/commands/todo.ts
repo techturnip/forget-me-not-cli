@@ -2,10 +2,12 @@
 // IMPORTS ----------------------------------|
 // ==========================================|
 import {Command, flags} from '@oclif/command'
-import {readFile} from 'fs'
+import {readFileSync, writeFileSync} from 'fs'
 import checkForFile from '../helpers/check-for-files'
-import {redBright} from 'chalk'
+import {redBright, yellowBright} from 'chalk'
 import {textSync} from 'figlet'
+import {addTodo} from '../helpers/todo-helepers'
+import cli from 'cli-ux'
 // ==========================================|
 // COMMAND ----------------------------------|
 // ==========================================|
@@ -14,7 +16,6 @@ export default class Todo extends Command {
   // Command description --------------------|
   // ========================================|
   static description = 'describe the command here'
-
   // ----------------------------------------|
   // Command flags --------------------------|
   // ========================================|
@@ -27,51 +28,69 @@ export default class Todo extends Command {
     list: flags.boolean({char: 'l', description: 'list available todos'}),
     add: flags.boolean({char: 'a', description: 'add a todo to the project'}),
   }
-
   // ----------------------------------------|
   // Command args ---------------------------|
   // ========================================|
-  static args = [{name: 'file'}]
-
+  // static args = [{name: 'file'}]
   // ----------------------------------------|
   // Run ------------------------------------|
   // ========================================|
   async run() {
-    const {args, flags} = this.parse(Todo)
+    // --------------------------------------|
+    // Define Variables ---------------------|
+    // ======================================|
+    const {/* args, */flags} = this.parse(Todo)
     const fmnrcPath = './fmnrc.json'
-
+    const noFmnrc = redBright('No fmnrc was detected!\nEnsure that you are in a project root directory (package.json)\nRun "fmn init" command.')
+    const fmnrc = checkForFile(fmnrcPath) ? readFileSync(fmnrcPath).toString() : null
+    // --------------------------------------|
+    // Todo Command logic -------------------|
+    // ======================================|
+    // Check for list flag
     if (flags.list) {
-      this.log('list flag')
+      // handle list flag logic
+      // if no fmnrc, display no fmnrc warning
+      if (!fmnrc) return this.warn(noFmnrc)
+      return
+      // Check for add flag
     }
-
     if (flags.add) {
-      this.log('add flag')
+      // if no fmnrc, display no fmnrc warning
+      if (!fmnrc) return this.warn(noFmnrc)
+      // prompt for todo name/description
+      const name = await cli.prompt('What is the name of your todo item?')
+      const desc = await cli.prompt('Add a short description of your todo:')
+      // create new date stamp for the todo
+      const date = new Date().toLocaleString()
+      // define new todo object
+      const todo = {name, desc, date}
+      // create a new fmnrc with added todo
+      const newFmnrc = addTodo(todo, JSON.parse(fmnrc))
+      // write the new fmnrc data to the fmnrc file
+      writeFileSync(fmnrcPath, JSON.stringify(newFmnrc, null, 2))
+      return
+      // else there were no flags
     }
-
     // check for fmnrc file
-    if (checkForFile(fmnrcPath)) {
-      // if fmnrc file is there, we want to read from the file
-      readFile(fmnrcPath, (err, data) => {
-        // handle error
-        if (err) return this.error('Something went wrong reading fmnrc.json.\n')
-        // extract todos list from fmnrc
-        const {name, vers, desc, todos} = JSON.parse(data.toString())
+    if (fmnrc) {
+      // parse the fmnrc file and destructure data
+      const {name, vers, desc, todos} = JSON.parse(fmnrc)
 
-        this.log(textSync(name) + ' v' + vers + '\n\n' + desc + '\n\n')
-
-        todos.forEach((todo: string | undefined) => {
-          this.log(todo)
-        })
+      // use textSync from figlet to display project name,
+      // log other project details
+      this.log(textSync(name) + ' v' + vers + '\n\n' + (desc ? desc : '') + '\n')
+      // forEach method on todos list to log information about any available
+      // todos
+      todos.forEach((todo: {name: string; desc: string; date: string} | undefined) => {
+        // if todo is defined
+        if (todo) {
+          // log information
+          this.log(yellowBright(`${todo.date}${'\n'}${todo.name}${'\n'}Todo: ${todo.desc}${'\n\n'}`))
+        }
       })
     } else {
       // no fmnrc file found, we post a warning to the console
-      this.warn(redBright('No fmnrc was detected!\nEnsure that you are in a project root directory (package.json)\nRun "fmn init" command.'))
-    }
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /media/tylerturnipseed/datapart/Projects/fmn-cli/src/commands/todo.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
+      this.warn(noFmnrc)
     }
   }
 }

@@ -2,5 +2,10 @@
   "extends": [
     "oclif",
     "oclif-typescript"
-  ]
+  ],
+  "rules": {
+    "no-warning-comments": 0,
+    "lines-between-class-members": "off",
+    "indent": "off"
+  }
 }
