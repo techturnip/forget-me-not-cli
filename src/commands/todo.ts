@@ -9,13 +9,24 @@ import {textSync} from 'figlet'
 import {addTodo, todoTable} from '../helpers/todo-helepers'
 import cli from 'cli-ux'
 // ==========================================|
+// TODO: ------------------------------------|
+// ==========================================|
+// Offer cross project functionality, which
+// will allow the cli to display latest todos
+// across multiple projects, which may require
+// some type of global database implementation
+// such as SQLite and a DB interaction API
+//
+// Current focus is building out local todo
+// functionality
+// ==========================================|
 // COMMAND ----------------------------------|
 // ==========================================|
 export default class Todo extends Command {
   // ----------------------------------------|
   // Command description --------------------|
   // ========================================|
-  static description = 'describe the command here'
+  static description = 'display and manage local project todos'
   // ----------------------------------------|
   // Command flags --------------------------|
   // ========================================|
@@ -50,7 +61,7 @@ export default class Todo extends Command {
     // pull out todos array from fmnrc object
     const todos: {name: string; desc: string; date: string}[] = JSON.parse(fmnrc).todos
     // Check for list flag
-    if (flags.list) {
+    if (flags.list && todos.length > 0) {
       // setup table
       todoTable(todos, flags, this.log)
       return // return to avoid additional operations
@@ -74,20 +85,11 @@ export default class Todo extends Command {
     if (fmnrc) {
       // parse the fmnrc file and destructure data
       const {name, vers, desc} = JSON.parse(fmnrc)
-
       // use textSync from figlet to display project name,
-      // log other project details
+      // display other project details
       this.log(textSync(name) + ' v' + vers + '\n\n' + (desc ? desc : '') + '\n')
-      // // forEach method on todos list to log information about any available
-      // // todos
-      // todos.forEach((todo: {name: string; desc: string; date: string} | undefined) => {
-      //   // if todo is defined
-      //   if (todo) {
-      //     // log information
-      //     this.log(yellowBright(`${todo.date}${'\n'}${todo.name}${'\n'}Todo: ${todo.desc}${'\n\n'}`))
-      //   }
-      // })
-      todoTable(todos, flags, this.log)
+      // display todos in a table format
+      todos.length > 0 ? todoTable(todos, flags, this.log) : null
     }
   }
 }
