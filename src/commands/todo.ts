@@ -32,8 +32,6 @@ export default class Todo extends Command {
   // ========================================|
   static flags = {
     help: flags.help({char: 'h'}),
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({char: 'n', description: 'name to print'}),
     list: flags.boolean({char: 'l', description: 'list available todos'}),
     add: flags.boolean({char: 'a', description: 'add a todo to the project'}),
     ...cli.table.flags(),
@@ -50,7 +48,7 @@ export default class Todo extends Command {
     // Define Variables ---------------------|
     // ======================================|
     const {/* args,a */flags} = this.parse(Todo)
-    const fmnrcPath = './fmnrc.json'
+    const fmnrcPath = './.fmnrc.json'
     const noFmnrc = redBright('No fmnrc was detected!\nEnsure that you are in a project root directory (package.json)\nRun "fmn init" command.')
     const fmnrc = checkForFile(fmnrcPath) ? readFileSync(fmnrcPath).toString() : null
     // --------------------------------------|

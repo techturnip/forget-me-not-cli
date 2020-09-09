@@ -1,30 +1,54 @@
+// ==========================================|
+// IMPORTS ----------------------------------|
+// ==========================================|
 import {Command, flags} from '@oclif/command'
 import checkForFile from '../helpers/check-for-files'
 import * as fs from 'fs'
 import {redBright, greenBright, yellowBright} from 'chalk'
 import cli from 'cli-ux'
-
-// paths to use with the helper function below
+// ==========================================|
+// GLOBAL -----------------------------------|
+// ==========================================|
 const pjsonPath = './package.json'
-const fmnrcPath = './fmnrc.json'
-
+const fmnrcPath = './.fmnrc.json'
+// ==========================================|
+// COMMAND ----------------------------------|
+// ==========================================|
 export default class Init extends Command {
-  // meta description of the command
+  // ----------------------------------------|
+  // Command description --------------------|
+  // ========================================|
   static description = 'Generate an fmnrc.json file to track project details and todos.'
-
-  // define flags
+  // ----------------------------------------|
+  // Command flags --------------------------|
+  // ========================================|
   static flags = {
     help: flags.help({char: 'h'}),
     // flag with no value (-f, --force)
     force: flags.boolean({char: 'f', description: 'forces overwrite of fmnrc.json file'}),
   }
-
+  // ----------------------------------------|
+  // Command args ---------------------------|
+  // ========================================|
+  // static args = [{name: 'file'}]
+  // ----------------------------------------|
+  // Run ------------------------------------|
+  // ========================================|
   async run() {
-    // destructure flags passed with the command
-    const {flags} = this.parse(Init)
-
+    // --------------------------------------|
+    // Define Variables ---------------------|
+    // ======================================|
+    const {flags} = this.parse(Init) // destructure flags
+    // ======================================|
+    // Init Command logic ===================|
+    // ======================================|
+    // CHECK FOR FMNRC ----------------------|
+    // --------------------------------------|
     // we want to check if there is a fmnrc.json file already present
     if (checkForFile(fmnrcPath)) {
+      // ------------------------------------|
+      // FORCE FLAG -------------------------|
+      // ------------------------------------|
       // fmnrc.json is present, we check for the force flag
       if (flags.force) {
         // if the force flag is present we will show an overwrite warning
@@ -45,12 +69,19 @@ export default class Init extends Command {
 
         // exit the command, no need for an overwrite
         return
-      }
-    }
+      } // end if (flags.force)
+      // ------------------------------------|
+    } // end if fmnrc exists
 
+    // --------------------------------------|
+    // CHECK FOR PJSON ----------------------|
+    // --------------------------------------|
     // there is not already an fmnrc.json file present, we generate one
     // check for existing package.json
     if (checkForFile(pjsonPath)) {
+      // ------------------------------------|
+      // GENERATE FMNRC ---------------------|
+      // ------------------------------------|
       // read the package.json file
       fs.readFile(pjsonPath, (err, data) => {
         // throw an error if there is one
@@ -68,14 +99,17 @@ export default class Init extends Command {
         }
 
         // now that we have our object we will create a new file
-        fs.writeFile('fmnrc.json', JSON.stringify(fmnrc, null, 2), err => {
+        fs.writeFile('.fmnrc.json', JSON.stringify(fmnrc, null, 2), async err => {
           if (err) return this.error(redBright('Something went wrong while writing the fmnrc.json file.\n'))
 
-          this.log(greenBright('Project has been initialized with fmn!\n'))
+          await this.log(greenBright('Project has been initialized with fmn!\n'))
         })
       })
+      // ------------------------------------|
     } else {
+      // failed check for pjson file
       this.warn(redBright('No project was detected!\nPlease make sure you\'re at the root directory of the project you wish to initialize with fmn.'))
     }
+    // --------------------------------------|
   }
 }

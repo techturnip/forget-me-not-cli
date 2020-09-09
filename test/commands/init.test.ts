@@ -76,7 +76,7 @@ describe('init (project w/ fmnrc)', () => {
       // we expect a warning that the project has been initialized
       expect(ctx.stderr).to.contain('Warning: Project has already been initialized with fmn!')
       // and that the fmnrc.json file does exist
-      expect(fs.existsSync('fmnrc.json')).to.be.true
+      expect(fs.existsSync('.fmnrc.json')).to.be.true
     })
   // test init command with force flag
   test
@@ -110,10 +110,10 @@ describe('init (project no fmnrc)', () => {
   // ----------------------------------------|
   // afterEach() cleanup method -------------|
   // ----------------------------------------|
-  afterEach(async () => {
+  afterEach(() => {
     // after each test we want to delete the
     // fmnrc.json file
-    await fs.unlinkSync('fmnrc.json')
+    fs.unlinkSync('.fmnrc.json')
   })
   // ----------------------------------------|
   // after() cleanup method -----------------|
@@ -130,7 +130,7 @@ describe('init (project no fmnrc)', () => {
     .command(['init'])
     .it('generates fmnrc file', ctx => {
       // we expect that the fmnrc.json exists
-      expect(fs.existsSync('fmnrc.json')).to.be.true
+      expect(fs.existsSync('.fmnrc.json')).to.be.true
       // and we have output that the Project has been initialized
       expect(ctx.stdout).to.contain('Project has been initialized with fmn!')
     })
@@ -145,9 +145,9 @@ describe('init (no project)', () => {
   // ========================================|
   // beforeEach() setup method --------------|
   // ----------------------------------------|
-  beforeEach(async () => {
+  beforeEach(() => {
     // ensure we are in the correct directory
-    await chdir(mockNoProject)
+    chdir(mockNoProject)
   })
   // ----------------------------------------|
   // after() cleanup method -----------------|
