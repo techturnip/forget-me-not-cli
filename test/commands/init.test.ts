@@ -17,19 +17,10 @@ const startingDir = process.cwd()
 // CHDIR HELPER FUNCTION --------------------|
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 // chdir() - helper function that wraps the ~|
-// node process.chdir() method. It returns ~~|
-// Promise that resolves if cwd is updated ~~|
-// to the correct directory. ~~~~~~~~~~~~~~~~|
+// node process.chdir() method. ~~~~~~~~~~~~~|
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-async function chdir(mockPath: string): Promise<number> {
+function chdir(mockPath: string) {
   process.chdir(path.join(__dirname, mockPath))
-  return new Promise<number>((resolve, reject) => {
-    if (process.cwd() === path.join(__dirname, mockPath)) {
-      resolve(1)
-    } else {
-      reject(new Error('whoops'))
-    }
-  })
 }
 // ==========================================|
 // TESTING ----------------------------------|
@@ -45,20 +36,7 @@ describe('init (project w/ fmnrc)', () => {
   // ========================================|
   // beforeEach() setup method --------------|
   // ----------------------------------------|
-  beforeEach(async () => {
-    // check to see if the cwd is not set to the mockProjectFmnrc
-    // path
-    if (process.cwd() !== path.join(__dirname, mockProjectFmnrc)) {
-      // if cwd is not set to correct path
-      try {
-        // we attempt to change dir to the path we want
-        await chdir(mockProjectFmnrc)
-      } catch (error) {
-        // otherwise we throw an error
-        throw new Error(error)
-      }
-    }
-  })
+  beforeEach(() => chdir(mockProjectFmnrc))
   // ----------------------------------------|
   // after() cleanup method -----------------|
   // ----------------------------------------|
@@ -103,10 +81,7 @@ describe('init (project no fmnrc)', () => {
   // ========================================|
   // beforeEach() setup method --------------|
   // ----------------------------------------|
-  beforeEach(() => {
-    // ensure that we are in the correct dir
-    chdir('/mockProject')
-  })
+  beforeEach(() => chdir('/mockProject'))
   // ----------------------------------------|
   // afterEach() cleanup method -------------|
   // ----------------------------------------|
@@ -145,18 +120,13 @@ describe('init (no project)', () => {
   // ========================================|
   // beforeEach() setup method --------------|
   // ----------------------------------------|
-  beforeEach(() => {
-    // ensure we are in the correct directory
-    chdir(mockNoProject)
-  })
+  beforeEach(() => chdir(mockNoProject))
   // ----------------------------------------|
   // after() cleanup method -----------------|
   // ----------------------------------------|
   // after all tests we change directory back
   // to the directory we started in
-  after(() => {
-    process.chdir(startingDir)
-  })
+  after(() => process.chdir(startingDir))
   test
     .stderr()
     .command(['init'])

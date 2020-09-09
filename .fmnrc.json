@@ -2,11 +2,5 @@
   "name": "fmn-cli",
   "desc": "Global CLI for managing todos across projects",
   "vers": "0.0.1",
-  "todos": [
-    {
-      "name": "Fix Tests",
-      "desc": "Fix issue where some tests fail on occasion for consistency",
-      "date": "9/4/2020, 6:00:13 PM"
-    }
-  ]
+  "todos": []
 }

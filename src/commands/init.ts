@@ -83,28 +83,18 @@ export default class Init extends Command {
       // GENERATE FMNRC ---------------------|
       // ------------------------------------|
       // read the package.json file
-      fs.readFile(pjsonPath, (err, data) => {
-        // throw an error if there is one
-        if (err) return this.error('Something went wrong while reading package.json.\n')
+      const pjson = JSON.parse(fs.readFileSync(pjsonPath).toString())
 
-        // store pjson contents in variable
-        const pjson = JSON.parse(data.toString())
+      const fmnrc = {
+        name: pjson.name,
+        desc: pjson.description,
+        vers: pjson.version,
+        todos: [],
+      }
 
-        // Then we want to construct our own json
-        const fmnrc = {
-          name: pjson.name,
-          desc: pjson.description,
-          vers: pjson.version,
-          todos: [],
-        }
+      fs.writeFileSync('.fmnrc.json', JSON.stringify(fmnrc, null, 2))
 
-        // now that we have our object we will create a new file
-        fs.writeFile('.fmnrc.json', JSON.stringify(fmnrc, null, 2), async err => {
-          if (err) return this.error(redBright('Something went wrong while writing the fmnrc.json file.\n'))
-
-          await this.log(greenBright('Project has been initialized with fmn!\n'))
-        })
-      })
+      this.log(greenBright('Project has been initialized with fmn!\n'))
       // ------------------------------------|
     } else {
       // failed check for pjson file
