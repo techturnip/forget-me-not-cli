@@ -4,7 +4,7 @@
 import {Command, flags} from '@oclif/command'
 import {readFileSync, writeFileSync} from 'fs'
 import checkForFile from '../helpers/check-for-files'
-import {redBright, yellowBright, greenBright} from 'chalk'
+import {redBright} from 'chalk'
 import {textSync} from 'figlet'
 import {addTodo, todoTable} from '../helpers/todo-helepers'
 import cli from 'cli-ux'
