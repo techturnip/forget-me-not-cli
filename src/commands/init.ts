@@ -72,7 +72,6 @@ export default class Init extends Command {
       } // end if (flags.force)
       // ------------------------------------|
     } // end if fmnrc exists
-
     // --------------------------------------|
     // CHECK FOR PJSON ----------------------|
     // --------------------------------------|
