@@ -8,6 +8,7 @@ import {redBright} from 'chalk'
 import {textSync} from 'figlet'
 import {addTodo, todoTable} from '../helpers/todo-helepers'
 import cli from 'cli-ux'
+import renderAscii from '../helpers/img-to-ascii'
 // ==========================================|
 // TODO: ------------------------------------|
 // ==========================================|
@@ -64,10 +65,13 @@ export default class Todo extends Command {
       todoTable(todos, flags, this.log)
       return // return to avoid additional operations
     }
+    // --------------------------------------|
+    // ADD FLAG -----------------------------|
+    // --------------------------------------|
     if (flags.add) {
       // prompt for todo name/description
       const name = await cli.prompt('What is the name of your todo item?')
-      const desc = await cli.prompt('Add a short description of your todo:')
+      const desc = await cli.prompt('Add a short description of your todo')
       // create new date stamp for the todo
       const date = new Date().toLocaleString()
       // define new todo object
@@ -76,18 +80,22 @@ export default class Todo extends Command {
       const newFmnrc = addTodo(todo, JSON.parse(fmnrc))
       // write the new fmnrc data to the fmnrc file
       writeFileSync(fmnrcPath, JSON.stringify(newFmnrc, null, 2))
-      return
-      // else there were no flags
+      console.clear()
+      // converts a cool image to ascii and displays it
+      renderAscii('../assets/thumbs-up.jpg', this.log)
+      // print out a congratulations message
+      return this.log('\nCongratulations, you\'ve added a new todo!\n')
     }
     // check for fmnrc file
-    if (fmnrc) {
-      // parse the fmnrc file and destructure data
-      const {name, vers, desc} = JSON.parse(fmnrc)
-      // use textSync from figlet to display project name,
-      // display other project details
-      this.log(textSync(name) + ' v' + vers + '\n\n' + (desc ? desc : '') + '\n')
-      // display todos in a table format
-      todos.length > 0 ? todoTable(todos, flags, this.log) : null
-    }
+    // --------------------------------------|
+    // NO FLAGS -----------------------------|
+    // --------------------------------------|
+    // parse the fmnrc file and destructure data
+    const {name, vers, desc} = JSON.parse(fmnrc)
+    // use textSync from figlet to display project name,
+    // display other project details
+    this.log(textSync(name) + ' v' + vers + '\n\n' + (desc ? desc : '') + '\n')
+    // display todos in a table format
+    todos.length > 0 ? todoTable(todos, flags, this.log) : null
   }
 }
