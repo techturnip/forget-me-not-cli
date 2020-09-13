@@ -1,0 +1,17 @@
+{
+  "name": "fmn-cli",
+  "desc": "Global CLI for managing todos across projects",
+  "vers": "0.0.1",
+  "todos": [
+    {
+      "name": "new todo",
+      "desc": "test todo",
+      "date": "9/11/2020, 4:25:30 PM"
+    },
+    {
+      "name": "This is a test",
+      "desc": "another test todo",
+      "date": "9/12/2020, 4:31:55 PM"
+    }
+  ]
+}
