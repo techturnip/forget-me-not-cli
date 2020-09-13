@@ -8,7 +8,6 @@ import {redBright} from 'chalk'
 import {textSync} from 'figlet'
 import {addTodo, todoTable} from '../helpers/todo-helepers'
 import cli from 'cli-ux'
-import renderAscii from '../helpers/img-to-ascii'
 // ==========================================|
 // TODO: ------------------------------------|
 // ==========================================|
@@ -80,10 +79,6 @@ export default class Todo extends Command {
       const newFmnrc = addTodo(todo, JSON.parse(fmnrc))
       // write the new fmnrc data to the fmnrc file
       writeFileSync(fmnrcPath, JSON.stringify(newFmnrc, null, 2))
-      // eslint-disable-next-line no-console
-      console.clear()
-      // converts a cool image to ascii and displays it
-      renderAscii('../assets/thumbs-up.jpg', this.log)
       // print out a congratulations message
       return this.log('\nCongratulations, you\'ve added a new todo!\n')
     }

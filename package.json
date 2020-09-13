@@ -15,7 +15,6 @@
     "chalk": "^4.1.0",
     "figlet": "^1.5.0",
     "gradient-string": "^1.2.0",
-    "image-to-ascii": "^3.0.13",
     "nyc": "^15.1.0",
     "tslib": "^1.13.0"
   },
