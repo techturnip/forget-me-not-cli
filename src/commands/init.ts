@@ -6,6 +6,7 @@ import checkForFile from '../helpers/check-for-files'
 import * as fs from 'fs'
 import {redBright, greenBright, yellowBright} from 'chalk'
 import cli from 'cli-ux'
+import {addProject} from '../models/project-model'
 // ==========================================|
 // GLOBAL -----------------------------------|
 // ==========================================|
@@ -84,16 +85,19 @@ export default class Init extends Command {
       // read the package.json file
       const pjson = JSON.parse(fs.readFileSync(pjsonPath).toString())
 
-      const fmnrc = {
+      const projectDetails = {
         name: pjson.name,
-        desc: pjson.description,
-        vers: pjson.version,
-        todos: [],
+        description: pjson.description,
+        version: pjson.version,
+        path: process.cwd(),
       }
 
-      fs.writeFileSync('.fmnrc.json', JSON.stringify(fmnrc, null, 2))
+      addProject(projectDetails).then(ids => {
+        fs.writeFileSync('.fmnrc.json', JSON.stringify(projectDetails, null, 2))
 
-      this.log(greenBright('Project has been initialized with fmn!\n'))
+        this.log(greenBright(`Project ${ids} has been initialized with fmn!\n`))
+      }).catch((error: string | Error) => this.error(error))
+
       // ------------------------------------|
     } else {
       // failed check for pjson file
