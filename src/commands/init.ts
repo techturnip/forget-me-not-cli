@@ -1,4 +1,3 @@
-/* eslint-disable no-process-exit */
 // ==========================================|
 // IMPORTS ----------------------------------|
 // ==========================================|
@@ -8,7 +7,6 @@ import * as fs from 'fs'
 import {redBright, greenBright, yellowBright} from 'chalk'
 import cli from 'cli-ux'
 import {addProject} from '../models/project-model'
-import db from '../data/db-config'
 // ==========================================|
 // GLOBAL -----------------------------------|
 // ==========================================|
@@ -94,12 +92,8 @@ export default class Init extends Command {
         path: process.cwd(),
       }
 
-			try {
-				const result = await addProject(projectDetails, this.log)
-        this.log(greenBright(`Project ${result.name} has been initialized with fmn!\n`))
-			} catch (error) {
-				this.warn(error)
-      }
+			const result = await addProject(projectDetails, this.log)
+       this.log(greenBright(`Project ${result.name} has been initialized with fmn!\n`))
       // ------------------------------------|
     } else {
       // failed check for pjson file
