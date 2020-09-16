@@ -13,7 +13,7 @@ export async function up(knex: Knex): Promise<void> {
       // Project version
       project.string('version', 20).notNullable()
       // Project path
-      project.string('path', 128).notNullable()
+      project.string('path', 128).notNullable().unique()
     })
     .createTable('todos', todo => {
       // primary key
@@ -40,6 +40,6 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   // drop projects table
-  return knex.schema.dropTableIfExists('projects')
+  return knex.schema.dropTableIfExists('todos').dropTableIfExists('projects')
 }
 

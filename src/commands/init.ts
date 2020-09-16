@@ -8,6 +8,7 @@ import * as fs from 'fs'
 import {redBright, greenBright, yellowBright} from 'chalk'
 import cli from 'cli-ux'
 import {addProject} from '../models/project-model'
+import db from '../data/db-config'
 // ==========================================|
 // GLOBAL -----------------------------------|
 // ==========================================|
@@ -94,15 +95,11 @@ export default class Init extends Command {
       }
 
 			try {
-				const result = await addProject(projectDetails)
+				const result = await addProject(projectDetails, this.log)
         this.log(greenBright(`Project ${result.name} has been initialized with fmn!\n`))
-        // eslint-disable-next-line unicorn/no-process-exit
-        process.exit()
 			} catch (error) {
-				this.error(error)
+				this.warn(error)
       }
-      // return result ? this.exit() : this.error('oops')
-
       // ------------------------------------|
     } else {
       // failed check for pjson file
