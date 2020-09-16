@@ -1,3 +1,4 @@
+/* eslint-disable no-process-exit */
 // ==========================================|
 // IMPORTS ----------------------------------|
 // ==========================================|
@@ -92,11 +93,15 @@ export default class Init extends Command {
         path: process.cwd(),
       }
 
-      addProject(projectDetails).then(ids => {
-        fs.writeFileSync('.fmnrc.json', JSON.stringify(projectDetails, null, 2))
-
-        this.log(greenBright(`Project ${ids} has been initialized with fmn!\n`))
-      }).catch((error: string | Error) => this.error(error))
+			try {
+				const result = await addProject(projectDetails)
+        this.log(greenBright(`Project ${result.name} has been initialized with fmn!\n`))
+        // eslint-disable-next-line unicorn/no-process-exit
+        process.exit()
+			} catch (error) {
+				this.error(error)
+      }
+      // return result ? this.exit() : this.error('oops')
 
       // ------------------------------------|
     } else {
